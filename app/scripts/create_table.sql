@@ -6,6 +6,9 @@ CREATE TABLE IF NOT EXISTS public."users"
     login text COLLATE pg_catalog."default" NOT NULL,
     password text COLLATE pg_catalog."default" NOT NULL,
     age numeric,
+    created_at timestamp,
+    updated_at timestamp,
+    deleted_at timestamp,
     CONSTRAINT "users_pkey" PRIMARY KEY (id)
 )
 

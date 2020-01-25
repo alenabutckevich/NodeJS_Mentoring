@@ -18,8 +18,22 @@ export function initUser(): void {
       type: DataTypes.NUMBER,
       allowNull: true,
     },
+    createdAt: {
+      field: 'created_at',
+      type: DataTypes.DATE,
+    },
+    updatedAt: {
+        field: 'updated_at',
+        type: DataTypes.DATE,
+    },
+    deletedAt: {
+      field: 'deleted_at',
+      type: DataTypes.DATE,
+    },
   }, {
       sequelize,
       modelName: "user",
+      paranoid: true,
+      timestamps: true,
     })
 }
