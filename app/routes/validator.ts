@@ -8,10 +8,16 @@ import {
 
 export const validator = createValidator();
 
-export const userSchema = Joi.object({
+export const createUserSchema = Joi.object({
   login: Joi.string().email().required(),
   password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)/).required(),
-  age: Joi.number().min(4).max(130).required(),
+  age: Joi.number().min(4).max(130),
+});
+
+export const updateUserSchema = Joi.object({
+  login: Joi.string().email(),
+  password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)/),
+  age: Joi.number().min(4).max(130),
 });
 
 export interface UserRequestSchema extends ValidatedRequestSchema {
