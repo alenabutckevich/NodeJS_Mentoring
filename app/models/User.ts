@@ -15,25 +15,13 @@ export function initUser(): void {
       allowNull: false,
     },
     age: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       allowNull: true,
-    },
-    createdAt: {
-      field: 'created_at',
-      type: DataTypes.DATE,
-    },
-    updatedAt: {
-        field: 'updated_at',
-        type: DataTypes.DATE,
-    },
-    deletedAt: {
-      field: 'deleted_at',
-      type: DataTypes.DATE,
     },
   }, {
       sequelize,
-      modelName: "user",
+      modelName: "User",
       paranoid: true,
       timestamps: true,
-    })
+    });
 }

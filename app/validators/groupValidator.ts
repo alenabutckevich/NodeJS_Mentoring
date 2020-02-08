@@ -11,12 +11,12 @@ export const groupValidator = createValidator();
 
 export const createGroupSchema = Joi.object({
   name: Joi.string().required(),
-  permissions: Joi.array().items(Joi.string).required(),
+  permissions: Joi.array().items(Joi.string()).required(),
 });
 
 export const updateGroupSchema = Joi.object({
   name: Joi.string(),
-  permissions: Joi.array().items(Joi.string),
+  permissions: Joi.array().items(Joi.string()),
 });
 
 export interface GroupRequestSchema extends ValidatedRequestSchema {

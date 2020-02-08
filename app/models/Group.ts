@@ -14,17 +14,9 @@ export function initGroup(): void {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: false,
     },
-    createdAt: {
-      field: 'created_at',
-      type: DataTypes.DATE,
-    },
-    updatedAt: {
-        field: 'updated_at',
-        type: DataTypes.DATE,
-    },
   }, {
       sequelize,
-      modelName: "group",
+      modelName: "Group",
       timestamps: true,
-    })
+    });
 }
