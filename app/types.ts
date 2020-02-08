@@ -9,3 +9,15 @@ export interface UserUpdateInput {
   password?: string;
   age?: number;
 }
+
+export type Permission = "READ" | "WRITE" | "DELETE" | "SHARE" | "UPLOAD_FILES";
+
+export interface GroupAddInput {
+  name: string;
+  permissions: Permission[];
+}
+
+export interface GroupUpdateInput {
+  name?: string;
+  permissions?: Permission[];
+}

@@ -1,7 +1,7 @@
 import express from "express";
 import { errors } from "celebrate";
 
-import routes from "./routes/userRoutes";
+import routes from "./routes";
 import { syncWithDB } from "./data-access/db";
 
 const port = 3000;

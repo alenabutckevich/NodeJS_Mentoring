@@ -6,7 +6,7 @@ import {
   ValidatedRequestSchema
 } from "express-joi-validation";
 
-export const validator = createValidator();
+export const userValidator = createValidator();
 
 export const createUserSchema = Joi.object({
   login: Joi.string().email().required(),
