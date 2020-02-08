@@ -6,6 +6,7 @@ import {
   getGroupById,
   getAllGroups,
   updateGroupById,
+  addUsersToGroup,
 } from "../data-access/groupRepository";
 
 export async function createGroup({ name, permissions }: GroupAddInput): Promise<Group> {
@@ -46,6 +47,14 @@ export async function updateGroup(id: string, { name, permissions }: GroupUpdate
 export async function deleteGroup(id: string): Promise<Group> {
   try {
     return await deleteGroupById(id);
+  } catch(err) {
+    throw(new Error(err.message));
+  }
+}
+
+export async function addUsers(groupId: string, userIds: string[]): Promise<void> {
+  try {
+    return await addUsersToGroup(groupId, userIds);
   } catch(err) {
     throw(new Error(err.message));
   }

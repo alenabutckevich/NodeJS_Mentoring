@@ -14,7 +14,7 @@ export function syncWithDB(): void {
   User.belongsToMany(Group, { through: "UserGroup" });
   Group.belongsToMany(User, { through: "UserGroup" });
 
-  sequelize.sync().then(() => {
+  sequelize.sync({ force: true }).then(() => {
     User.create({
       login: "Jimmy_Anderson@google.com",
       password: "84D2BF9E1B6269DCD0E9B4AA1957BFDA81B3B605",

@@ -1,7 +1,14 @@
 import { Router } from "express";
 import { ValidatedRequest } from "express-joi-validation";
 
-import { groupValidator, createGroupSchema, updateGroupSchema, GroupRequestSchema } from "../validators/groupValidator";
+import {
+  groupValidator,
+  createGroupSchema,
+  updateGroupSchema,
+  addUsersSchema,
+  GroupRequestSchema,
+  AddUserRequestSchema,
+} from "../validators/groupValidator";
 
 import {
   createGroup,
@@ -9,6 +16,7 @@ import {
   updateGroup,
   deleteGroup,
   getGroups,
+  addUsers,
 } from "../services/groupService";
 
 export function initGroupRoutes(router: Router) {
@@ -64,6 +72,17 @@ export function initGroupRoutes(router: Router) {
     try {
       const result = await getGroups();
       res.json(result);
+    } catch(err) {
+      return res.status(400).end(err.message);
+    }
+  });
+
+  router.post("/group/addUsers", groupValidator.body(addUsersSchema), (req: ValidatedRequest<AddUserRequestSchema>, res) => {
+    const { groupId, userIds } = req.body;
+
+    try {
+      addUsers(groupId, userIds);
+      res.end();
     } catch(err) {
       return res.status(400).end(err.message);
     }

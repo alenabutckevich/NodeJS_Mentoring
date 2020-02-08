@@ -19,9 +19,21 @@ export const updateGroupSchema = Joi.object({
   permissions: Joi.array().items(Joi.string()),
 });
 
+export const addUsersSchema = Joi.object({
+  groupId: Joi.string(),
+  userIds: Joi.array().items(Joi.string()),
+})
+
 export interface GroupRequestSchema extends ValidatedRequestSchema {
   [ContainerTypes.Query]: {
     name: string;
     permissions: Permission[];
+  };
+}
+
+export interface AddUserRequestSchema extends ValidatedRequestSchema {
+  [ContainerTypes.Query]: {
+    groupId: string;
+    userIds: string[];
   };
 }

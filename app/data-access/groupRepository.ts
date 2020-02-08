@@ -1,5 +1,8 @@
+import { sequelize } from "./db";;
+
 import { GroupAddInput, GroupUpdateInput } from "../types";
 import { Group } from "../models/Group";
+import { User } from "../models/User";
 
 export async function addGroup({ name, permissions }: GroupAddInput): Promise<Group> {
   return Group.create({
@@ -33,4 +36,19 @@ export async function deleteGroupById(id: string): Promise<Group> {
       id,
     }
   });
+}
+
+export async function addUsersToGroup(groupId: string, userIds: string[]) {
+  const t = await sequelize.transaction();
+
+  try {
+    const group = await Group.findOne({ where: { id: groupId } });
+    userIds.forEach(async userId => {
+      const userToAdd = await User.findOne({ where: { id: userId } });
+      group.setUsers([userToAdd]);
+    })
+    await t.commit();
+  } catch(error) {
+    await t.rollback();
+  }
 }
