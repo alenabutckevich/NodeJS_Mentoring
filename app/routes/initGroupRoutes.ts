@@ -19,7 +19,7 @@ import {
   addUsers,
 } from "../services/groupService";
 
-export function initGroupRoutes(router: Router) {
+export function initGroupRoutes(router: Router): void {
   router.post("/group", groupValidator.body(createGroupSchema),
   async (req: ValidatedRequest<GroupRequestSchema>, res) => {
     const { name, permissions } = req.body;

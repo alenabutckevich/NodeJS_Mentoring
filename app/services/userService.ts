@@ -1,5 +1,7 @@
 import { createHash } from "crypto";
 
+import { serviceLogger } from "..";
+
 import { UserAddInput, UserUpdateInput } from "../types";
 import { User } from "../models/User";
 import {
@@ -16,6 +18,8 @@ function encryptPassword(password: string): string {
 }
 
 export async function createUser({ login, password, age }: UserAddInput): Promise<User> {
+  serviceLogger.info(`createUser method has been invoked with params: login: ${login}, password: ${password}, age: ${age}`);
+
   try {
     const user = await getUserByLogin(login);
     if (user) { throw new Error("User with this login already exists.") }
@@ -27,6 +31,8 @@ export async function createUser({ login, password, age }: UserAddInput): Promis
 }
 
 export async function getUser(id: string): Promise<User> {
+  serviceLogger.info(`getUser method has been invoked with params: id: ${id}`);
+
   try {
     return await getUserById(id);
   } catch(err) {
@@ -35,6 +41,8 @@ export async function getUser(id: string): Promise<User> {
 }
 
 export async function getAutoSuggestUsers(limit: number, loginSubstring = ""): Promise<User> {
+  serviceLogger.info(`getAutoSuggestUsers method has been invoked with params: limit: ${limit}, loginSubstring: ${loginSubstring}`);
+
   try {
     return getUsers(loginSubstring, isNaN(limit) ? undefined : limit);
   } catch(err) {
@@ -43,6 +51,8 @@ export async function getAutoSuggestUsers(limit: number, loginSubstring = ""): P
 }
 
 export async function updateUser(id: string, { login, password, age }: UserUpdateInput): Promise<User> {
+  serviceLogger.info(`updateUser method has been invoked with params: id: ${id}, login: ${login}, password: ${password}, age: ${age}`);
+
   try {
     return await updateUserById(id, {
       login,
@@ -55,6 +65,8 @@ export async function updateUser(id: string, { login, password, age }: UserUpdat
 }
 
 export async function deleteUser(id: string): Promise<User> {
+  serviceLogger.info(`deleteUser method has been invoked with params: id: ${id}`);
+
   try {
     return await deleteUserById(id);
   } catch(err) {

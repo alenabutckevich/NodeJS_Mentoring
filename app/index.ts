@@ -1,5 +1,6 @@
 import express from "express";
 import { errors } from "celebrate";
+import bunyan from "bunyan";
 
 import routes from "./routes";
 import { syncWithDB } from "./data-access/db";
@@ -20,3 +21,5 @@ app.listen(port, () => {
 });
 
 syncWithDB();
+
+export const serviceLogger = bunyan.createLogger({ name: "serviceLogger" });

@@ -10,7 +10,7 @@ import {
   getAutoSuggestUsers
 } from "../services/userService";
 
-export function initUserRoutes(router: Router) {
+export function initUserRoutes(router: Router): void {
   router.post("/user", userValidator.body(createUserSchema),
   async (req: ValidatedRequest<UserRequestSchema>, res) => {
     const { login, password, age } = req.body;

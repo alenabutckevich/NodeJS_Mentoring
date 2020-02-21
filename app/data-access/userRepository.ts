@@ -7,7 +7,7 @@ export async function addUser({ login, password, age }: UserAddInput): Promise<U
   return User.create({
     login,
     password,
-    age,
+    age: isNaN(age) ? null : age,
   })
 }
 
@@ -37,7 +37,7 @@ export async function updateUserById(id: string, { login, password, age }: UserU
   return await User.update({ 
     login,
     password,
-    age,
+    age: isNaN(age) ? null : age,
   }, {
     where: {
       id,

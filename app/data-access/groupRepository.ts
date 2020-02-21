@@ -1,4 +1,4 @@
-import { sequelize } from "./db";;
+import { sequelize } from "./db";
 
 import { GroupAddInput, GroupUpdateInput } from "../types";
 import { Group } from "../models/Group";
@@ -38,7 +38,7 @@ export async function deleteGroupById(id: string): Promise<Group> {
   });
 }
 
-export async function addUsersToGroup(groupId: string, userIds: string[]) {
+export async function addUsersToGroup(groupId: string, userIds: string[]): Promise<void> {
   const t = await sequelize.transaction();
 
   try {
