@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { ValidatedRequest } from "express-joi-validation";
 
+import { logger } from "..";
+
 import {
   groupValidator,
   createGroupSchema,
@@ -26,10 +28,10 @@ export function initGroupRoutes(router: Router): void {
 
     try {
       const result = await createGroup({ name, permissions });
-      console.log(result);
+
       res.json(result);
     } catch(err) {
-      console.log(err);
+      logger.log({ level: "error", message: `method: post, url: "/group", args: { name: ${name}, permissions: ${permissions} }, error: ${err.message}` });
       return res.status(400).end(err.message);
     }
   });
@@ -40,6 +42,7 @@ export function initGroupRoutes(router: Router): void {
       const result = await getGroup(id);
       res.json(result);
     } catch(err) {
+      logger.log({ level: "error", message: `method: get, url: "/group/:id", args: { id: ${id} }, error: ${err.message}` });
       return res.status(400).end(err.message);
     }
   });
@@ -53,6 +56,7 @@ export function initGroupRoutes(router: Router): void {
       const result = await updateGroup(id, { name, permissions });
       return res.json(result);
     } catch(err) {
+      logger.log({ level: "error", message: `method: put, url: "/group/:id", args: { id: ${id}, name: ${name}, permissions: ${permissions} }, error: ${err.message}` });
       return res.status(400).end(err.message);
     }
   });
@@ -64,6 +68,7 @@ export function initGroupRoutes(router: Router): void {
       const result = await deleteGroup(id);
       return res.json(result);
     } catch(err) {
+      logger.log({ level: "error", message: `method: delete, url: "/group/:id", args: { id: ${id} }, error: ${err.message}` });
       return res.status(400).end(err.message);
     }
   });
@@ -73,6 +78,7 @@ export function initGroupRoutes(router: Router): void {
       const result = await getGroups();
       res.json(result);
     } catch(err) {
+      logger.log({ level: "error", message: `method: get, url: "/groups", error: ${err.message}` });
       return res.status(400).end(err.message);
     }
   });
@@ -84,6 +90,7 @@ export function initGroupRoutes(router: Router): void {
       addUsers(groupId, userIds);
       res.end();
     } catch(err) {
+      logger.log({ level: "error", message: `method: post, url: "/groups/addUsers", args: { groupId: ${groupId}, userIds: ${userIds} }, error: ${err.message}` });
       return res.status(400).end(err.message);
     }
   });

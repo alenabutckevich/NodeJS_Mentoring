@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { ValidatedRequest } from "express-joi-validation";
 
+import { logger } from "..";
+
 import { userValidator, createUserSchema, updateUserSchema, UserRequestSchema } from "../validators/userValidator";
 import {
   createUser,
@@ -19,6 +21,7 @@ export function initUserRoutes(router: Router): void {
       const result = await createUser({ login, password, age: Number(age) });
       res.json(result);
     } catch(err) {
+      logger.log({ level: "error", message: `method: post, url: "/user", args: { login: ${login}, password: ${password}, age: ${age} }, error: ${err.message}` });
       return res.status(400).end(err.message);
     }
   });
@@ -30,6 +33,7 @@ export function initUserRoutes(router: Router): void {
       const user = await getUser(id);
       res.json(user);
     } catch(err) {
+      logger.log({ level: "error", message: `method: get, url: "/user/:id", args: { id: ${id} }, error: ${err.message}`});
       return res.status(400).end(err.message);
     }
   });
@@ -43,6 +47,7 @@ export function initUserRoutes(router: Router): void {
       const result = await updateUser(id, { login, password, age: Number(age) });
       return res.json(result);
     } catch(err) {
+      logger.log({ level: "error", message: `method: put, url: "/user/:id", args: { id: ${id}, login: ${login}, password: ${password}, age: ${age} }, error: ${err.message}`});
       return res.status(400).end(err.message);
     }
   });
@@ -54,6 +59,7 @@ export function initUserRoutes(router: Router): void {
       const result = await deleteUser(id);
       return res.json(result);
     } catch(err) {
+      logger.log({ level: "error", message: `method: delete, url: "/user/:id", args: { id: ${id} }, error: ${err.message}`});
       return res.status(400).end(err.message);
     }
   });
@@ -64,6 +70,7 @@ export function initUserRoutes(router: Router): void {
       const users = await getAutoSuggestUsers(limit, loginSubstring);
       res.json(users);
     } catch(err) {
+      logger.log({ level: "error", message: `method: get, url: "/users", args: { limit: ${limit}, loginSubstring: ${loginSubstring} }, error: ${err.message}`});
       return res.status(400).end(err.message);
     }
   });
