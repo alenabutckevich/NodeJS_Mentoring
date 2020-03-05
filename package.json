@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/bluebird": "^3.5.30",
     "@types/bunyan": "^1.8.6",
+    "@types/cors": "^2.8.6",
     "@types/express": "^4.17.3",
     "@types/hapi__joi": "^16.0.4",
     "@types/jsonwebtoken": "^8.3.8",
@@ -37,6 +38,7 @@
     "@hapi/joi": "^16.1.8",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
     "@typescript-eslint/parser": "^2.12.0",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "eslint": "^6.8.0",
     "express": "^4.17.1",

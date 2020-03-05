@@ -72,7 +72,7 @@ export function initUserRoutes(router: Router): void {
       const users = await getAutoSuggestUsers(limit, loginSubstring);
       res.json(users);
     } catch(err) {
-      // logger.log({ level: "error", message: `method: get, url: "/users", args: { limit: ${limit}, loginSubstring: ${loginSubstring} }, error: ${err.message}`});
+      logger.log({ level: "error", message: `method: get, url: "/users", args: { limit: ${limit}, loginSubstring: ${loginSubstring} }, error: ${err.message}`});
       return res.sendStatus(400).end(err.message);
     }
   });
