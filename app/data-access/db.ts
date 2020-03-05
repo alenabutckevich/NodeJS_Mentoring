@@ -1,16 +1,16 @@
 import { Sequelize } from "sequelize";
 
-import { initUser, User } from "../models/User";
-import { initGroup, Group } from "../models/Group";
+import { SEQUELIZE } from "../constants";
+import { initUser, initGroup } from "../models";
 
-export const sequelize = new Sequelize("postgres", "postgres", "Elephant", {
+export const sequelize = new Sequelize(SEQUELIZE.DATABASE, SEQUELIZE.USERNAME, SEQUELIZE.PASSWORD, {
   dialect: "postgres",
 });
 
-export function syncWithDB(): void {
-  initUser();
-  initGroup();
+export const User = initUser();
+export const Group = initGroup();
 
+export function syncWithDB(): void {
   User.belongsToMany(Group, { through: "UserGroup" });
   Group.belongsToMany(User, { through: "UserGroup" });
 

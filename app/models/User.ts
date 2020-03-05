@@ -1,11 +1,22 @@
-import { DataTypes, Model } from "sequelize";
+import { BuildOptions, DataTypes, Model } from "sequelize";
 
 import { sequelize } from "../data-access/db";
 
-export class User extends Model {}
+export interface UserModel extends Model {
+  id?: number;
+  login: string;
+  password: string;
+  age?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
-export function initUser(): void {
-  User.init({
+type UserStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): UserModel;
+}
+
+export function initUser(): UserStatic {
+  return sequelize.define("User", {
     login: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -18,10 +29,5 @@ export function initUser(): void {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-  }, {
-      sequelize,
-      modelName: "User",
-      paranoid: true,
-      timestamps: true,
-    });
+  }) as UserStatic;
 }

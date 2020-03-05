@@ -1,27 +1,23 @@
-import { createHash } from "crypto";
-
 import { serviceLogger } from "..";
 
-import { UserAddInput, UserUpdateInput } from "../types";
-import { User } from "../models/User";
 import {
   addUser,
   deleteUserById,
-  getUserById,
-  getUserByLogin,
+  findUserById,
+  findUserByLogin,
   getUsers,
   updateUserById,
 } from "../data-access/userRepository";
+import { UserModel } from "../models";
 
-function encryptPassword(password: string): string {
-  return String(createHash("sha1").update(password, "utf8").digest());
-}
+import { UserAddInput, UserUpdateInput } from "../types";
+import { encryptPassword } from "../utils/encryptPassword";
 
-export async function createUser({ login, password, age }: UserAddInput): Promise<User> {
+export async function createUser({ login, password, age }: UserAddInput): Promise<UserModel> {
   serviceLogger.info(`createUser method has been invoked with params: login: ${login}, password: ${password}, age: ${age}`);
 
   try {
-    const user = await getUserByLogin(login);
+    const user = await findUserByLogin(login);
     if (user) { throw new Error("User with this login already exists.") }
 
     return addUser({ login, password: encryptPassword(password), age });
@@ -30,17 +26,27 @@ export async function createUser({ login, password, age }: UserAddInput): Promis
   }
 }
 
-export async function getUser(id: string): Promise<User> {
+export async function getUser(id: string): Promise<UserModel | null> {
   serviceLogger.info(`getUser method has been invoked with params: id: ${id}`);
 
   try {
-    return await getUserById(id);
+    return await findUserById(id);
   } catch(err) {
     throw(new Error(err.message));
   }
 }
 
-export async function getAutoSuggestUsers(limit: number, loginSubstring = ""): Promise<User> {
+export async function getUserByLogin(login: string): Promise<UserModel | null> {
+  serviceLogger.info(`getUserByLogin method has been invoked with params: login: ${login}`);
+
+  try {
+    return await findUserByLogin(login);
+  } catch(err) {
+    throw(new Error(err.message));
+  }
+}
+
+export async function getAutoSuggestUsers(limit: number, loginSubstring = ""): Promise<UserModel[]> {
   serviceLogger.info(`getAutoSuggestUsers method has been invoked with params: limit: ${limit}, loginSubstring: ${loginSubstring}`);
 
   try {
@@ -50,7 +56,7 @@ export async function getAutoSuggestUsers(limit: number, loginSubstring = ""): P
   }
 }
 
-export async function updateUser(id: string, { login, password, age }: UserUpdateInput): Promise<User> {
+export async function updateUser(id: string, { login, password, age }: UserUpdateInput): Promise<[number, UserModel[]]> {
   serviceLogger.info(`updateUser method has been invoked with params: id: ${id}, login: ${login}, password: ${password}, age: ${age}`);
 
   try {
@@ -64,7 +70,7 @@ export async function updateUser(id: string, { login, password, age }: UserUpdat
   }
 }
 
-export async function deleteUser(id: string): Promise<User> {
+export async function deleteUser(id: string): Promise<number> {
   serviceLogger.info(`deleteUser method has been invoked with params: id: ${id}`);
 
   try {

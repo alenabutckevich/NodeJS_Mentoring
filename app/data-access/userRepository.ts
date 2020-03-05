@@ -1,9 +1,11 @@
 import { Op } from "sequelize";
 
+import { UserModel } from "../models";
 import { UserAddInput, UserUpdateInput } from "../types";
-import { User } from "../models/User";
 
-export async function addUser({ login, password, age }: UserAddInput): Promise<User> {
+import { User } from "./db";
+
+export async function addUser({ login, password, age }: UserAddInput): Promise<UserModel> {
   return User.create({
     login,
     password,
@@ -11,15 +13,15 @@ export async function addUser({ login, password, age }: UserAddInput): Promise<U
   })
 }
 
-export async function getUserByLogin(login: string): Promise<User> {
+export async function findUserByLogin(login: string): Promise<UserModel | null> {
   return await User.findOne({ where: { login } });
 }
 
-export async function getUserById(id: string): Promise<User> {
+export async function findUserById(id: string): Promise<UserModel | null> {
   return await User.findOne({ where: { id } });
 }
 
-export async function getUsers(loginSubstring = "", limit?: number): Promise<User> {
+export async function getUsers(loginSubstring = "", limit?: number): Promise<UserModel[]> {
   const users = User.findAll({
     limit,
     where:{
@@ -33,7 +35,7 @@ export async function getUsers(loginSubstring = "", limit?: number): Promise<Use
   return users;
 }
 
-export async function updateUserById(id: string, { login, password, age }: UserUpdateInput): Promise<User> {
+export async function updateUserById(id: string, { login, password, age }: UserUpdateInput): Promise<[number, UserModel[]]> {
   return await User.update({ 
     login,
     password,
@@ -45,7 +47,7 @@ export async function updateUserById(id: string, { login, password, age }: UserU
   });
 }
 
-export async function deleteUserById(id: string): Promise<User> {
+export async function deleteUserById(id: string): Promise<number> {id
   return await User.destroy({
     where: {
       id,

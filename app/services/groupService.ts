@@ -1,7 +1,5 @@
 import { serviceLogger } from "..";
 
-import { GroupAddInput, GroupUpdateInput } from "../types";
-import { Group } from "../models/Group";
 import {
   addGroup,
   deleteGroupById,
@@ -11,7 +9,10 @@ import {
   addUsersToGroup,
 } from "../data-access/groupRepository";
 
-export async function createGroup({ name, permissions }: GroupAddInput): Promise<Group> {
+import { GroupModel } from "../models";
+import { GroupAddInput, GroupUpdateInput } from "../types";
+
+export async function createGroup({ name, permissions }: GroupAddInput): Promise<GroupModel> {
   serviceLogger.info(`createGroup method has been invoked with params: name: ${name}, permissions: ${permissions}`);
 
   try {
@@ -21,7 +22,7 @@ export async function createGroup({ name, permissions }: GroupAddInput): Promise
   }
 }
 
-export async function getGroup(id: string): Promise<Group> {
+export async function getGroup(id: string): Promise<GroupModel | null> {
   serviceLogger.info(`getGroup method has been invoked with params: id: ${id}`);
 
   try {
@@ -31,7 +32,7 @@ export async function getGroup(id: string): Promise<Group> {
   }
 }
 
-export async function getGroups(): Promise<Group> {
+export async function getGroups(): Promise<GroupModel[]> {
   serviceLogger.info(`getGroups method has been invoked`);
 
   try {
@@ -41,7 +42,7 @@ export async function getGroups(): Promise<Group> {
   }
 }
 
-export async function updateGroup(id: string, { name, permissions }: GroupUpdateInput): Promise<Group> {
+export async function updateGroup(id: string, { name, permissions }: GroupUpdateInput): Promise<[number, GroupModel[]]> {
   serviceLogger.info(`updateGroup method has been invoked with params: id: ${id}, name: ${name}, permissions: ${permissions}`);
 
   try {
@@ -54,7 +55,7 @@ export async function updateGroup(id: string, { name, permissions }: GroupUpdate
   }
 }
 
-export async function deleteGroup(id: string): Promise<Group> {
+export async function deleteGroup(id: string): Promise<number> {
   serviceLogger.info(`updateGroup method has been invoked with params: id: ${id}`);
 
   try {
