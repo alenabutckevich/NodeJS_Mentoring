@@ -56,7 +56,7 @@ export async function updateGroup(id: string, { name, permissions }: GroupUpdate
 }
 
 export async function deleteGroup(id: string): Promise<number> {
-  serviceLogger.info(`updateGroup method has been invoked with params: id: ${id}`);
+  serviceLogger.info(`deleteGroup method has been invoked with params: id: ${id}`);
 
   try {
     return await deleteGroupById(id);
@@ -66,7 +66,7 @@ export async function deleteGroup(id: string): Promise<number> {
 }
 
 export async function addUsers(groupId: string, userIds: string[]): Promise<void> {
-  serviceLogger.info(`updateGroup method has been invoked with params: groupId: ${groupId}, userIds: ${userIds}`);
+  serviceLogger.info(`addUsers method has been invoked with params: groupId: ${groupId}, userIds: ${userIds}`);
 
   try {
     return await addUsersToGroup(groupId, userIds);

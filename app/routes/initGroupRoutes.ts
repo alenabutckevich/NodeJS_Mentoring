@@ -18,9 +18,7 @@ import {
   groupValidator,
   createGroupSchema,
   updateGroupSchema,
-  addUsersSchema,
   GroupRequestSchema,
-  AddUserRequestSchema,
 } from "../validators/groupValidator";
 
 export function initGroupRoutes(router: Router): void {
@@ -75,7 +73,7 @@ export function initGroupRoutes(router: Router): void {
     }
   });
 
-  router.get("/groups", checkToken, async(req, res) => {
+  router.get("/groups", checkToken, async(_, res) => {
     try {
       const result = await getGroups();
       res.json(result);
@@ -85,7 +83,7 @@ export function initGroupRoutes(router: Router): void {
     }
   });
 
-  router.post("/group/addUsers", groupValidator.body(addUsersSchema), checkToken, (req: ValidatedRequest<AddUserRequestSchema>, res) => {
+  router.post("/group/addUsers", checkToken, (req, res) => {
     const { groupId, userIds } = req.body;
 
     try {

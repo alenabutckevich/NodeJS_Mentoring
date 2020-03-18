@@ -1,10 +1,14 @@
+import dotenv from "dotenv";
 import { Sequelize } from "sequelize";
 
-import { SEQUELIZE } from "../constants";
 import { initUser, initGroup } from "../models";
 
-export const sequelize = new Sequelize(SEQUELIZE.DATABASE, SEQUELIZE.USERNAME, SEQUELIZE.PASSWORD, {
-  dialect: "postgres",
+dotenv.config();
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+export const sequelize = new Sequelize(process.env.DB_TYPE, process.env.DB_USER, process.env.DB_PASS, {
+  dialect: process.env.DB_TYPE,
 });
 
 export const User = initUser();
@@ -27,5 +31,7 @@ export function syncWithDB(): void {
       login: "Harper_Chapman@google.com",
       password: "6B8D109221D072C1C03BCB589D2689956DEAE823",
     });
+  }).catch((err: Error) => {
+    console.log(err.message);
   });
 }
